@@ -28,6 +28,41 @@
         <h1 class="title">Ionic Blank Starter</h1>
       </ion-header-bar>
       <ion-content class="has-header">
+          <div class="main-body" id ="main-body">
+              <div class="display">
+                  <div class="display-row">{{display}}</div>
+              </div>
+              <div id="row1" class="row">
+                  <button class="buttons grey" type="button grey" ng-click="clear">AC</button>
+                  <button class="buttons grey" type="button grey" ng-click="+/-">+/-</button>
+                  <button class="buttons grey" type="button grey" ng-click="%">%</button>
+                  <button class="buttons orange" type="button" ng-click="divide">÷</button>
+              </div>
+              <div id="row2" class="row">
+                  <button class="buttons" type="button" ng-click="number7">7</button>
+                  <button class="buttons" type="button" ng-click="number8">8</button>
+                  <button class="buttons" type="button" ng-click="number9">9</button>
+                  <button class="buttons orange" type="button" ng-click="multiplay">×</button>
+              </div>
+              <div id="row3" class="row">
+                  <button class="buttons" type="button" ng-click="number4">4</button>
+                  <button class="buttons" type="button" ng-click="number5">5</button>
+                  <button class="buttons" type="button" ng-click="number6">6</button>
+                  <button class="buttons orange" type="button" ng-click="subtract">-</button>
+              </div>
+              <div id="row4" class="row">
+                  <button class="buttons" type="button" ng-click="number1">1</button>
+                  <button class="buttons" type="button" ng-click="number2">2</button>
+                  <button class="buttons" type="button" ng-click="number3">3</button>
+                  <button class="buttons orange" type="button" ng-click="add">+</button>
+              </div>
+              <div id="row5" class="row">
+                  <button class="buttons" type="button" ng-click="number0">0</button>
+                  <button class="buttons" type="button" ng-click="number0"></button>
+                  <button class="buttons" type="button" ng-click="point">.</button>
+                  <button class="buttons orange" type="button" ng-click="calculate">=</button>
+              </div>
+          </div>    
       </ion-content>
     </ion-pane>
   </body>
