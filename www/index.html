@@ -20,20 +20,22 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+   
   </head>
 
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="CalCtrl">
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">Simple Calculator</h1>
       </ion-header-bar>
       <ion-content class="has-header">
           <div class="main-body" id ="main-body">
-              <div class="display">
-                  <div class="display-row">{{display}}</div>
+              <div class="display" >
+                  <div  class="display-row">{{display}}</div>
               </div>
               <div id="row1" class="row">
-                  <button class="buttons grey" type="button grey" ng-click="clear()">AC</button>
+                  <button class="buttons grey" type="button grey" ng-click="clear()">C</button>
                   <button class="buttons grey" type="button grey" ng-click="+/-">+/-</button>
                   <button class="buttons grey" type="button grey" ng-click="%">%</button>
                   <button class="buttons orange" type="button" ng-click="divide()">÷</button>
@@ -57,8 +59,7 @@
                   <button class="buttons orange" type="button" ng-click="add('+')">+</button>
               </div>
               <div id="row5" class="row">
-                  <button class="buttons" type="button" ng-click="enterNumber(0)">0</button>
-                  <button class="buttons" type="button" ></button>
+                  <button class="buttons zero" type="button" ng-click="enterNumber(0)">0</button>
                   <button class="buttons" type="button" ng-click="enterNumber('.')">.</button>
                   <button class="buttons orange" type="button" ng-click="calculate()">=</button>
               </div>
