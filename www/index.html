@@ -32,31 +32,31 @@
       <ion-content class="has-header">
           <div class="main-body" id ="main-body">
               <div class="display" >
-                  <div  class="display-row">{{display}}</div>
+                  <div  class="display-row"><p>{{display}}</p></div>
               </div>
               <div id="row1" class="row">
                   <button class="buttons grey" type="button grey" ng-click="clear()">C</button>
                   <button class="buttons grey" type="button grey" ng-click="+/-">+/-</button>
-                  <button class="buttons grey" type="button grey" ng-click="%">%</button>
-                  <button class="buttons orange" type="button" ng-click="divide()">÷</button>
+                  <button class="buttons grey" type="button grey" ng-click="operate('moduling')">%</button>
+                  <button class="buttons orange" type="button" ng-click="operate('dividing')">÷</button>
               </div>
               <div id="row2" class="row">
                   <button class="buttons" type="button" ng-click="enterNumber(7)">7</button>
                   <button class="buttons" type="button" ng-click="enterNumber(8)">8</button>
                   <button class="buttons" type="button" ng-click="enterNumber(9)">9</button>
-                  <button class="buttons orange" type="button" ng-click="multiplay()">×</button>
+                  <button class="buttons orange" type="button" ng-click="operate('multiplying')">×</button>
               </div>
               <div id="row3" class="row">
                   <button class="buttons" type="button" ng-click="enterNumber(4)">4</button>
                   <button class="buttons" type="button" ng-click="enterNumber(5)">5</button>
                   <button class="buttons" type="button" ng-click="enterNumber(6)">6</button>
-                  <button class="buttons orange" type="button" ng-click="subtract()">-</button>
+                  <button class="buttons orange" type="button" ng-click="operate('subtracting')">-</button>
               </div>
               <div id="row4" class="row">
                   <button class="buttons" type="button" ng-click="enterNumber(1)">1</button>
                   <button class="buttons" type="button" ng-click="enterNumber(2)">2</button>
                   <button class="buttons" type="button" ng-click="enterNumber(3)">3</button>
-                  <button class="buttons orange" type="button" ng-click="add('+')">+</button>
+                  <button class="buttons orange" type="button" ng-click="operate('adding')">+</button>
               </div>
               <div id="row5" class="row">
                   <button class="buttons zero" type="button" ng-click="enterNumber(0)">0</button>

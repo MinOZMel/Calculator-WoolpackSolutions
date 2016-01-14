@@ -7,13 +7,15 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
     $scope.display = 0;
 
     var ADD = "adding";
-    var SUBTRACT = "subtracting";
     var ADD_TOKEN = "+";
+    var SUBTRACT = "subtracting";
     var SUBTRACT_TOKEN = "-";
     var DIVIDE = "dividing"
     var DIVIDE_TOKEN = "/";
     var MULTIPLY = "multiplying"
     var MULTIPLY_TOKEN = "*";
+    var MODULE = 'moduling';
+    var MODULE_TOKEN = '%';
 
     $scope.enterNumber = function (number) {
       if ($scope.display == "0" || $scope.newNumber) {
@@ -24,72 +26,47 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
       }
       $scope.pendingValue = parseFloat($scope.display);
     };
-
-    $scope.add = function () {
-        if ($scope.pendingValue) {
-            if ($scope.runningTotal && $scope.pendingOperation == ADD) {
-                $scope.runningTotal += $scope.pendingValue;
-            } else {
+ 
+    $scope.operate = function (operation) {
+        if($scope.pendingValue){
+            if ($scope.runningTotal) {    
+                switch(operation){
+                    case ADD:
+                        $scope.runningTotal += $scope.pendingValue;
+                        break;
+                    case SUBTRACT:
+                        $scope.runningTotal -= $scope.pendingValue;
+                        break;
+                    case DIVIDE:
+                        $scope.runningTotal /= $scope.pendingValue;
+                        break;
+                    case MULTIPLY:
+                        $scope.runningTotal *= $scope.pendingValue;
+                        break;
+                    case MODULE:
+                        $scope.runningTotal %= $scope.pendingValue;
+                        break;
+                    default:
+                        break;
+                    }
+            } else{
                 $scope.runningTotal = $scope.pendingValue;
-            }
+            }  
         }
-        setOperationToken(ADD);
+        setOperationToken(operation);
         setDisplay(String($scope.runningTotal));
-        $scope.pendingOperation = ADD;
+        $scope.pendingOperation = operation;
         $scope.newNumber = true;
         $scope.pendingValue = null;
     };
 
-    $scope.subtract = function () {
-        if ($scope.pendingValue) {
-            if ($scope.runningTotal && ($scope.pendingOperation == SUBTRACT)) {
-                $scope.runningTotal -= $scope.pendingValue;
-            } else {
-                $scope.runningTotal = $scope.pendingValue;
-            }
-        }
-        setOperationToken(SUBTRACT);
-        setDisplay(String($scope.runningTotal));
-        $scope.pendingOperation = SUBTRACT;
-        $scope.newNumber = true;
-        $scope.pendingValue = null;
-    };
-
-    $scope.divide = function () {
-        if ($scope.pendingValue) {
-            if ($scope.runningTotal && $scope.pendingOperation == DIVIDE) {
-                $scope.runningTotal /= $scope.pendingValue;
-            } else {
-                $scope.runningTotal = $scope.pendingValue;
-            }
-        }
-        setOperationToken(DIVIDE);
-        setDisplay(String($scope.runningTotal));
-        $scope.pendingOperation = DIVIDE;
-        $scope.newNumber = true;
-        $scope.pendingValue = null;
-    };
-
-    $scope.multiply = function () {
-        if ($scope.pendingValue) {
-            if ($scope.runningTotal && $scope.pendingOperation == MULTIPLY) {
-                $scope.runningTotal *= $scope.pendingValue;
-            } else {
-                $scope.runningTotal = $scope.pendingValue;
-            }
-        }
-        setOperationToken(MULTIPLY);
-        setDisplay(String($scope.runningTotal));
-        $scope.pendingOperation = MULTIPLY;
-        $scope.newNumber = true;
-        $scope.pendingValue = null;
-    };
 
     $scope.calculate = function () {
         if (!$scope.newNumber) {
             $scope.pendingValue = parseFloat($scope.display);
             $scope.lastValue = $scope.pendingValue;
         }
+        
         if ($scope.pendingOperation == ADD) {
             $scope.runningTotal += $scope.pendingValue;
             $scope.lastOperation = ADD;
@@ -102,6 +79,9 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
         } else if ($scope.pendingOperation == MULTIPLY) {
             $scope.runningTotal *= $scope.pendingValue;
             $scope.lastOperation = MULTIPLY;
+         } else if ($scope.pendingOperation == MODULE) {
+            $scope.runningTotal %= $scope.pendingValue;
+            $scope.lastOperation = MODULE;
         } else {
             if ($scope.lastOperation) {
                 if ($scope.lastOperation == ADD) {
@@ -129,10 +109,17 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
                     } else {
                         $scope.runningTotal = 0;
                     }
+                } else if ($scope.lastOperation == MODULE) {
+                    if ($scope.runningTotal) {
+                        $scope.runningTotal %= $scope.lastValue;
+                    } else {
+                        $scope.runningTotal = 0;
+                    }
             } else {
                 $scope.runningTotal = 0;
             }
         }
+        
         setDisplay($scope.runningTotal);
         setOperationToken();
         $scope.pendingOperation = null;
@@ -147,12 +134,23 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
     };
 
     setOperationToken = function (operation) {
-        if (operation == ADD) {
-            $scope.operationToken = ADD_TOKEN;
-        } else if (operation == SUBTRACT) {
-            $scope.operationToken = SUBTRACT_TOKEN;
-        } else {
-            $scope.operationToken = "";
+        switch(operation){
+            case ADD:
+               $scope.operationToken = ADD_TOKEN;
+               break; 
+            case SUBTRACT:
+               $scope.operationToken = SUBTRACT_TOKEN;
+               break;
+            case MULTIPLY:
+               $scope.operationToken = MULTIPLY_TOKEN;
+               break;
+            case DIVIDE:
+               $scope.operationToken = DIVIDE_TOKEN;
+               break;
+            case MODULE:
+               $scope.operationToken = MODULE_TOKEN;
+               break;
+            default : break;
         }
     };
 
