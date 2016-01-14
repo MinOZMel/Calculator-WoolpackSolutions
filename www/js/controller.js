@@ -1,8 +1,10 @@
 angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
     $scope.pendingValue = null;
     $scope.newNumber = true;
-    $scope.runningTotal = null;
     $scope.operationToken = "";
+    $scope.hasOperator = false;
+    $scope.runningTotal = 0;
+    $scope.operator = null;
 
     $scope.display = 0;
 
@@ -24,109 +26,62 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
       } else {
           $scope.display += String(number);
       }
-      $scope.pendingValue = parseFloat($scope.display);
+      
+       $scope.currentValue = parseFloat($scope.display);
+
+      if($scope.hasOperator ){
+          switch($scope.operator){
+            case ADD:
+              $scope.pendingValue += $scope.currentValue;
+              break;
+            case SUBTRACT:
+              $scope.pendingValue -= $scope.currentValue;
+              break;
+            case MULTIPLY:
+              $scope.pendingValue *= $scope.currentValue;
+              break;
+            case DIVIDE:
+              if(number ==0){
+                  $scope.display = 'Error';
+                  $scope.pendingValue = null;
+                  $scope.newNumber = true;
+                  $scope.runningTotal = null;
+                  $scope.operationToken = "";
+                  $scope.hasOperator = false;
+              }
+              else{
+                  $scope.pendingValue /= $scope.currentValue;
+                  $scope.pendingValue = $scope.pendingValue.toFixed(10);
+              }
+              break;
+            default:
+              break;
+          }
+      }
+      else{
+        $scope.pendingValue = $scope.currentValue;
+      }  
+
+    };
+
+
+
+    $scope.operate = function(operation){ 
+        $scope.operator = operation;
+        setOperationToken(operation);
+        setDisplay(String($scope.pendingValue));
+        $scope.newNumber = true;
+        $scope.hasOperator = true;
+    };
+
+    $scope.calculate = function(){
+        if($scope.hasOperator){
+          setDisplay(String($scope.pendingValue));
+        }
     };
  
-    $scope.operate = function (operation) {
-        if($scope.pendingValue){
-            if ($scope.runningTotal) {    
-                switch(operation){
-                    case ADD:
-                        $scope.runningTotal += $scope.pendingValue;
-                        break;
-                    case SUBTRACT:
-                        $scope.runningTotal -= $scope.pendingValue;
-                        break;
-                    case DIVIDE:
-                        $scope.runningTotal /= $scope.pendingValue;
-                        break;
-                    case MULTIPLY:
-                        $scope.runningTotal *= $scope.pendingValue;
-                        break;
-                    case MODULE:
-                        $scope.runningTotal %= $scope.pendingValue;
-                        break;
-                    default:
-                        break;
-                    }
-            } else{
-                $scope.runningTotal = $scope.pendingValue;
-            }  
-        }
-        setOperationToken(operation);
-        setDisplay(String($scope.runningTotal));
-        $scope.pendingOperation = operation;
-        $scope.newNumber = true;
-        $scope.pendingValue = null;
-    };
-
-
-    $scope.calculate = function () {
-        if (!$scope.newNumber) {
-            $scope.pendingValue = parseFloat($scope.display);
-            $scope.lastValue = $scope.pendingValue;
-        }
-        
-        if ($scope.pendingOperation == ADD) {
-            $scope.runningTotal += $scope.pendingValue;
-            $scope.lastOperation = ADD;
-        } else if ($scope.pendingOperation == SUBTRACT) {
-            $scope.runningTotal -= $scope.pendingValue;
-            $scope.lastOperation = SUBTRACT;
-        } else if ($scope.pendingOperation == DIVIDE) {
-            $scope.runningTotal /= $scope.pendingValue;
-            $scope.lastOperation = DIVIDE;
-        } else if ($scope.pendingOperation == MULTIPLY) {
-            $scope.runningTotal *= $scope.pendingValue;
-            $scope.lastOperation = MULTIPLY;
-         } else if ($scope.pendingOperation == MODULE) {
-            $scope.runningTotal %= $scope.pendingValue;
-            $scope.lastOperation = MODULE;
-        } else {
-            if ($scope.lastOperation) {
-                if ($scope.lastOperation == ADD) {
-                    if ($scope.runningTotal) {
-                        $scope.runningTotal += $scope.lastValue;
-                    } else {
-                        $scope.runningTotal = 0;
-                    }
-                } else if ($scope.lastOperation == SUBTRACT) {
-                    if ($scope.runningTotal) {
-                        $scope.runningTotal -= $scope.lastValue;
-                    } else {
-                        $scope.runningTotal = 0;
-                    }
-                }
-                } else if ($scope.lastOperation == DIVIDE) {
-                    if ($scope.runningTotal) {
-                        $scope.runningTotal /= $scope.lastValue;
-                    } else {
-                        $scope.runningTotal = 0;
-                    }
-                } else if ($scope.lastOperation == MULTIPLY) {
-                    if ($scope.runningTotal) {
-                        $scope.runningTotal *= $scope.lastValue;
-                    } else {
-                        $scope.runningTotal = 0;
-                    }
-                } else if ($scope.lastOperation == MODULE) {
-                    if ($scope.runningTotal) {
-                        $scope.runningTotal %= $scope.lastValue;
-                    } else {
-                        $scope.runningTotal = 0;
-                    }
-            } else {
-                $scope.runningTotal = 0;
-            }
-        }
-        
-        setDisplay($scope.runningTotal);
-        setOperationToken();
-        $scope.pendingOperation = null;
-        $scope.pendingValue = null;
-        console.log($scope.runningTotal);
-    };
-
+ 
+ 
     setDisplay = function (outputString) {
       $scope.display = outputString;
       $scope.newNumber = true;
@@ -154,9 +109,9 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
         }
     };
 
-    $scope.operationButtonClick = function (operation) {
-      $scope.display = operation;
-    }
+    // $scope.operationButtonClick = function (operation) {
+    //   $scope.display = operation;
+    // }
 
     /** Clears the display box **/
     $scope.clear = function (clear) {
@@ -165,12 +120,9 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
       $scope.newNumber = true;
       $scope.runningTotal = null;
       $scope.operationToken = "";
+      $scope.hasOperator = false;
     }
 
-    $scope.setDisplay = function (outputString) {
-      $scope.display = outputString;
-      $scope.newNumber = true;
-    };
   }]);
 
 
