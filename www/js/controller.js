@@ -163,46 +163,16 @@ angular.module('starter').controller('CalCtrl', ['$scope', function ($scope) {
     /** Clears the display box **/
     $scope.clear = function (clear) {
       $scope.display = 0;
+      $scope.pendingValue = null;
+      $scope.newNumber = true;
+      $scope.runningTotal = null;
+      $scope.operationToken = "";
     }
 
     $scope.setDisplay = function (outputString) {
       $scope.display = outputString;
       $scope.newNumber = true;
     };
-
-    // Functions for the top two rows
-    $scope.pow = function() {
-      $scope.display = ($scope.display)*($scope.display);
-    }
-
-    $scope.sin = function() {
-      $scope.display = Math.sin($scope.display*(Math.PI / 180));
-    }
-
-    $scope.cos = function() {
-      $scope.display = Math.cos($scope.display*(Math.PI / 180));
-    }
-
-    $scope.tan = function() {
-      $scope.display = Math.tan($scope.display*(Math.PI / 180));
-    }
-
-    $scope.sqrt = function() {
-      $scope.display = Math.sqrt($scope.display);
-    }
-
-    $scope.asin = function() {
-      $scope.display = Math.asin($scope.display*(Math.PI / 180));
-    }
-
-    $scope.acos = function() {
-      $scope.display = Math.acos($scope.display*(Math.PI / 180));
-    }
-
-    $scope.atan = function() {
-      $scope.display = Math.atan($scope.display*(Math.PI / 180));
-    }
-
   }]);
 
 
